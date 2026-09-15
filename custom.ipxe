@@ -1,12 +1,18 @@
 #!ipxe
-###
-### netboot.xyz-custom menu
-###
 
-:start
-echo Hello world!
-sleep 10
-goto custom_exit
 
-:custom_exit
-exit 0
+
+:custom
+
+set install_params auto=true priority=critical vga=788
+set mirror http://deb.debian.org
+set base_dir debian
+set debian_version bookworm
+set arch amd64
+set mirrorcfg mirror/suite=${debian_version}
+set dir ${mirror}/${base_dir}/dists/${version}/main/installer-${arch}/current/images/netboot/debian-installer/amd64/
+
+
+kernel ${dir}/linux ${install_params} ${mirrorcfg} -- quiet initrd=initrd.gz
+initrd ${dir}/initrd.gz
+boot
