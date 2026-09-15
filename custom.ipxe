@@ -1,18 +1,13 @@
 #!ipxe
 
-
-
 :custom
 
-set install_params auto=true priority=critical vga=788
-set mirror http://deb.debian.org
-set base_dir debian
 set debian_version bookworm
 set arch amd64
-set mirrorcfg mirror/suite=${debian_version}
-set dir ${mirror}/${base_dir}/dists/${debian_version}/main/installer-${arch}/current/images/netboot/debian-installer/amd64/
+set mirror http://deb.debian.org/debian
 
+set dir ${mirror}/dists/${debian_version}/main/installer-${arch}/current/images/netboot/debian-installer/${arch}
 
-kernel ${dir}/linux ${install_params} ${mirrorcfg} -- quiet initrd=initrd.gz
+kernel ${dir}/linux auto=true priority=critical vga=788 mirror/http/hostname=deb.debian.org mirror/http/directory=/debian mirror/suite=${debian_version} quiet initrd=initrd.gz
 initrd ${dir}/initrd.gz
 boot
